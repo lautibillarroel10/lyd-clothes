@@ -1,0 +1,104 @@
+@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Minimal Streetwear";
+}
+
+<!-- ─── HERO ─────────────────────────────────────────── -->
+<section class="hero">
+    <div class="hero-content">
+        <p class="hero-eyebrow">Nueva Colección 2026</p>
+        <h1 class="hero-title">MENOS<br>ES MÁS.</h1>
+        <p class="hero-sub">Básicos atemporales para el hombre que sabe lo que quiere.</p>
+        <a href="#catalogo" class="btn-primary">Ver Colección</a>
+    </div>
+    <div class="hero-accent"></div>
+</section>
+
+<!-- ─── STRIP ─────────────────────────────────────────── -->
+<div class="marquee-strip">
+    <div class="marquee-track">
+        <span>STREETWEAR</span><span>·</span>
+        <span>MINIMAL</span><span>·</span>
+        <span>BASICS</span><span>·</span>
+        <span>LYD CLOTHES</span><span>·</span>
+        <span>STREETWEAR</span><span>·</span>
+        <span>MINIMAL</span><span>·</span>
+        <span>BASICS</span><span>·</span>
+        <span>LYD CLOTHES</span><span>·</span>
+        <span>STREETWEAR</span><span>·</span>
+        <span>MINIMAL</span><span>·</span>
+        <span>BASICS</span><span>·</span>
+        <span>LYD CLOTHES</span><span>·</span>
+    </div>
+</div>
+
+<!-- ─── CATÁLOGO ──────────────────────────────────────── -->
+<section class="catalog" id="catalogo">
+    <div class="catalog-header">
+        <h2 class="section-title">Novedades</h2>
+        <p class="section-count">@Model.Count() productos</p>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-catalog">
+            <p>No hay productos disponibles por el momento.</p>
+            <a href="/Admin/Create" class="btn-secondary">Agregar productos →</a>
+        </div>
+    }
+    else
+    {
+        <div class="product-grid">
+            @foreach (var product in Model)
+            {
+                <article class="product-card">
+                    <div class="product-image-wrap">
+                        @if (!string.IsNullOrEmpty(product.ImagePath))
+                        {
+                            <img src="@product.ImagePath" alt="@product.Name" class="product-img" loading="lazy">
+                        }
+                        else
+                        {
+                            <div class="product-no-img">
+                                <span>LYD</span>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(product.Category))
+                        {
+                            <span class="product-badge">@product.Category</span>
+                        }
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">@product.Name</h3>
+                        @if (!string.IsNullOrEmpty(product.Description))
+                        {
+                            <p class="product-desc">@product.Description</p>
+                        }
+                        <div class="product-footer">
+                            <span class="product-price">$@product.Price.ToString("N0")</span>
+                            <button class="btn-add">+ Agregar</button>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+</section>
+
+<!-- ─── ABOUT ─────────────────────────────────────────── -->
+<section class="about" id="coleccion">
+    <div class="about-grid">
+        <div class="about-text">
+            <h2>Sobre LYD</h2>
+            <p>
+                Nacimos con una idea simple: la ropa no necesita gritar para ser notada.
+                Cada prenda de LYD está pensada para durar, para ser versátil,
+                y para representar al hombre moderno que elige calidad sobre logo.
+            </p>
+            <p>Confección local · Telas premium · Ediciones limitadas</p>
+        </div>
+        <div class="about-quote">
+            <blockquote>"El estilo<br>es una forma<br>de decir quién<br>sos sin hablar."</blockquote>
+        </div>
+    </div>
+</section>

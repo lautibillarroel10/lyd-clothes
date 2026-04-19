@@ -1,0 +1,88 @@
+@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Admin — Productos";
+    Layout = "_Layout";
+}
+
+<div class="admin-wrap">
+
+    <!-- Header del panel -->
+    <div class="admin-topbar">
+        <div>
+            <h1 class="admin-title">Panel Admin</h1>
+            <p class="admin-sub">@Model.Count() productos en total</p>
+        </div>
+        <a href="/Admin/Create" class="btn-primary">+ Nuevo Producto</a>
+    </div>
+
+    <!-- Toast de éxito -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="toast toast--success">
+            ✓ @TempData["Success"]
+        </div>
+    }
+
+    <!-- Tabla de productos -->
+    @if (!Model.Any())
+    {
+        <div class="admin-empty">
+            <p>No hay productos cargados todavía.</p>
+            <a href="/Admin/Create" class="btn-primary">Crear el primero →</a>
+        </div>
+    }
+    else
+    {
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Model)
+                    {
+                        <tr class="@(p.IsActive ? "" : "row-inactive")">
+                            <td>
+                                @if (!string.IsNullOrEmpty(p.ImagePath))
+                                {
+                                    <img src="@p.ImagePath" alt="@p.Name" class="admin-thumb">
+                                }
+                                else
+                                {
+                                    <div class="admin-thumb admin-thumb--empty">LYD</div>
+                                }
+                            </td>
+                            <td class="td-name">@p.Name</td>
+                            <td><span class="chip">@(string.IsNullOrEmpty(p.Category) ? "—" : p.Category)</span></td>
+                            <td class="td-price">$@p.Price.ToString("N0")</td>
+                            <td>
+                                <form asp-action="ToggleActive" asp-route-id="@p.Id" method="post" style="display:inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="badge @(p.IsActive ? "badge--active" : "badge--inactive")">
+                                        @(p.IsActive ? "Activo" : "Oculto")
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="td-actions">
+                                <a href="/Admin/Edit/@p.Id" class="action-btn action-btn--edit">Editar</a>
+                                <form asp-action="Delete" asp-route-id="@p.Id" method="post"
+                                      onsubmit="return confirm('¿Eliminar @p.Name? Esta acción no se puede deshacer.')">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="action-btn action-btn--delete">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+</div>

@@ -1,0 +1,99 @@
+@model Product
+@{
+    ViewData["Title"] = "Nuevo Producto";
+}
+
+<div class="admin-wrap">
+    <div class="admin-topbar">
+        <div>
+            <h1 class="admin-title">Nuevo Producto</h1>
+            <p class="admin-sub"><a href="/Admin">← Volver al panel</a></p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Name" class="form-label">Nombre del producto *</label>
+                    <input asp-for="Name" class="form-input" placeholder="Ej: Remera Oversize Black">
+                    <span asp-validation-for="Name" class="field-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Category" class="form-label">Categoría</label>
+                    <select asp-for="Category" class="form-input form-select">
+                        <option value="">— Sin categoría —</option>
+                        <option>Remeras</option>
+                        <option>Buzos</option>
+                        <option>Pantalones</option>
+                        <option>Accesorios</option>
+                        <option>Otros</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="form-label">Descripción</label>
+                <textarea asp-for="Description" class="form-input form-textarea"
+                          placeholder="Detalle el material, el corte, las tallas disponibles..."></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Price" class="form-label">Precio (ARS) *</label>
+                    <div class="input-prefix-wrap">
+                        <span class="input-prefix">$</span>
+                        <input asp-for="Price" type="number" step="100" class="form-input form-input--prefixed" placeholder="25000">
+                    </div>
+                    <span asp-validation-for="Price" class="field-error"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Estado</label>
+                    <label class="toggle-label">
+                        <input asp-for="IsActive" type="checkbox" class="toggle-input">
+                        <span class="toggle-track"></span>
+                        <span class="toggle-text">Visible en la tienda</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="image" class="form-label">Foto del producto</label>
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" name="image" id="image" accept="image/*" class="upload-input">
+                    <div class="upload-ui">
+                        <span class="upload-icon">↑</span>
+                        <p>Arrastrá una imagen o <strong>hacé click</strong> para seleccionar</p>
+                        <p class="upload-hint">JPG, PNG, WEBP — máx. 5 MB</p>
+                    </div>
+                    <img id="previewImg" class="upload-preview" style="display:none" alt="Preview">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="/Admin" class="btn-secondary">Cancelar</a>
+                <button type="submit" class="btn-primary">Guardar Producto</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    const input = document.getElementById('image');
+    const preview = document.getElementById('previewImg');
+    const zone = document.getElementById('uploadZone');
+
+    input.addEventListener('change', () => {
+        if (input.files[0]) {
+            preview.src = URL.createObjectURL(input.files[0]);
+            preview.style.display = 'block';
+            zone.querySelector('.upload-ui').style.display = 'none';
+        }
+    });
+</script>
+}

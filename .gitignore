@@ -1,0 +1,30 @@
+## .NET / ASP.NET Core
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+## Base de datos SQLite (se genera automáticamente)
+*.db
+*.db-shm
+*.db-wal
+
+## Imágenes subidas por el admin (no versionar)
+wwwroot/uploads/*
+!wwwroot/uploads/.gitkeep
+
+## Secretos y configuración local
+appsettings.Development.json
+secrets.json
+
+## Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Rider / JetBrains
+.idea/
+
+## VS Code
+.vscode/

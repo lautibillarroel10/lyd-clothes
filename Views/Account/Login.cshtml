@@ -1,0 +1,137 @@
+@model LYDClothes.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Acceso Admin";
+    Layout = null; // Página standalone sin navbar
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — LYD Clothes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css">
+    <style>
+        /* ── Login page override ── */
+        body { background: #0A0A0A; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+
+        .login-wrap {
+            width: 100%;
+            max-width: 420px;
+            padding: 2rem;
+        }
+
+        .login-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            color: #F5F3EF;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: .25rem;
+        }
+
+        .login-sub {
+            text-align: center;
+            font-size: .78rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #444;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 2rem;
+        }
+
+        .login-card .form-label  { color: #555; }
+        .login-card .form-input  { background: #1a1a1a; border-color: #2a2a2a; color: #F5F3EF; }
+        .login-card .form-input:focus { border-color: #C8FF00; }
+        .login-card .form-input::placeholder { color: #444; }
+
+        .login-error {
+            background: rgba(230,57,70,.12);
+            border: 1px solid rgba(230,57,70,.3);
+            color: #E63946;
+            padding: .8rem 1rem;
+            border-radius: 4px;
+            font-size: .85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-row {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            margin-bottom: 1.5rem;
+        }
+        .remember-row input[type="checkbox"] { accent-color: #C8FF00; width: 16px; height: 16px; cursor: pointer; }
+        .remember-row label { font-size: .82rem; color: #555; cursor: pointer; }
+
+        .login-btn {
+            width: 100%;
+            justify-content: center;
+            font-size: .82rem;
+        }
+
+        .login-back {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: .78rem;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color .2s;
+        }
+        .login-back:hover { color: #888; }
+    </style>
+</head>
+<body>
+    <div class="login-wrap">
+
+        <p class="login-brand">LYD.</p>
+        <p class="login-sub">Panel de Administración</p>
+
+        <div class="login-card">
+
+            @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ContainsKey(""))
+            {
+                <div class="login-error">
+                    ✕ @ViewData.ModelState[""]?.Errors.FirstOrDefault()?.ErrorMessage
+                </div>
+            }
+
+            <form asp-controller="Account" asp-action="Login" method="post"
+                  asp-route-returnUrl="@ViewData["ReturnUrl"]">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="Username" class="form-label">Usuario</label>
+                    <input asp-for="Username" class="form-input" placeholder="admin" autocomplete="username">
+                    <span asp-validation-for="Username" class="field-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password" class="form-label">Contraseña</label>
+                    <input asp-for="Password" type="password" class="form-input" placeholder="••••••••" autocomplete="current-password">
+                    <span asp-validation-for="Password" class="field-error"></span>
+                </div>
+
+                <div class="remember-row">
+                    <input asp-for="RememberMe" type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Recordarme por 30 días</label>
+                </div>
+
+                <button type="submit" class="btn-primary login-btn">Ingresar →</button>
+            </form>
+        </div>
+
+        <a href="/" class="login-back">← Volver a la tienda</a>
+    </div>
+</body>
+</html>

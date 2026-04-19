@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] — LYD CLOTHES</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="/" class="logo">LYD.</a>
+        <nav class="nav-links">
+            <a href="/#catalogo">Shop</a>
+            <a href="/#coleccion">Colección</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <span class="nav-user">👤 @User.Identity.Name</span>
+                <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="nav-logout">Salir</button>
+                </form>
+            }
+            else
+            {
+                <a href="/Admin" class="nav-admin">Admin ↗</a>
+            }
+        </nav>
+    </header>
+
+    @RenderBody()
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="footer-brand">LYD CLOTHES</span>
+            <p>&copy; 2026 — Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
