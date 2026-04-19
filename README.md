@@ -72,18 +72,6 @@ LYDClothes/
 └── Program.cs                  # Entry point y configuración de servicios
 ```
 
----
-
-## 🔐 Acceso al panel Admin
-
-| | |
-|---|---|
-| **URL** | `/Admin` → redirige a `/Account/Login` si no estás logueado |
-| **Usuario** | `admin` |
-| **Contraseña** | `lyd2026` |
-
-> ⚠️ **Antes de publicar en producción**, cambiá las credenciales en `appsettings.json`.
-
 ### URLs principales
 
 | Ruta | Descripción |
