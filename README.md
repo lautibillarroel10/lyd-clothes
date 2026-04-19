@@ -72,6 +72,8 @@ LYDClothes/
 └── Program.cs                  # Entry point y configuración de servicios
 ```
 
+---
+
 ### URLs principales
 
 | Ruta | Descripción |
